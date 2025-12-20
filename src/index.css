@@ -1,0 +1,54 @@
+@font-face {
+  font-family: 'DS';
+  src: url('./assets/fonts/DM_Sans/DMSans-VariableFont_opsz,wght.ttf') format('truetype');
+  font-weight: 100 900; /* диапазон весов */
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'DSI';
+  src: url('./assets/fonts/DM_Sans/DMSans-Italic-VariableFont_opsz,wght.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'BG';
+  src: url('./assets/fonts/Bricolage_Grotesque/BricolageGrotesque-VariableFont_opsz\,wdth\,wght.ttf') format('truetype');
+  font-weight: 100 900; /* диапазон весов */
+  font-style: normal;
+}
+
+:root {
+  font-family: 'DS', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-weight: 400;
+
+  /* Neutral */
+  --neutral-900: hsl(243, 96%, 9%);
+  --neutral-800: hsl(243, 27%, 20%);
+  --neutral-700: hsl(243, 23%, 24%);
+  --neutral-600: hsl(243, 23%, 30%);
+  --neutral-300: hsl(240, 6%, 70%);
+  --neutral-200: hsl(250, 6%, 84%);
+  --neutral-0: hsl(0, 0%, 100%);
+
+  /* Orange */
+  --orange-500: hsl(28, 100%, 52%);
+
+  /* Blue */
+  --blue-500: hsl(233, 67%, 56%);
+  --blue-700: hsl(248, 70%, 36%);
+
+  /* Border radius */
+  --b-radius: 8px;
+  --b-radius-large: 20px;
+}
+
+body {
+  font-family: 'DS', sans-serif;
+  font-size: 18px;
+  box-sizing: border-box;
+
+  color: var(--neutral-0);
+  background-color: var(--neutral-900);
+}
