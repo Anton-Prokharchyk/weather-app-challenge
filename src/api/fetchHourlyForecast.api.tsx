@@ -34,7 +34,7 @@ export const fetchHourlyForecast = async () => {
 
   const weatherMap = data.hourly.temperature_2m.map((temp: number, index: number) => {
     const time = new Date(data.hourly.time[index]).getHours();
-    return { temperature: temp, time: time24hto12hMapper[time], weather: data.hourly.weather_code[index] };
+    return { temperature: temp.toFixed(0), time: time24hto12hMapper[time], weather: data.hourly.weather_code[index] };
   });
   return weatherMap;
 };

@@ -1,7 +1,7 @@
 import { ForecastCardContainer } from './forecast-card.styles';
 
 export const ForecastCard = ({
-  padding = '16px',
+  padding = '8px',
   children,
   position,
 }: {

@@ -17,9 +17,9 @@ export const fetchDailyForecast = async () => {
   const weatherMap = data.daily.temperature_2m_min.map((temp: number, index: number) => {
     const time = new Date(data.daily.time[index]).getDay();
     return {
-      temperatureMin: temp,
-      temperatureMax: data.daily.temperature_2m_max[index],
-      time: daysMapper[time],
+      temperatureMin: temp.toFixed(0),
+      temperatureMax: data.daily.temperature_2m_max[index].toFixed(0),
+      day: daysMapper[time],
       weather: data.daily.weather_code[index],
     };
   });
