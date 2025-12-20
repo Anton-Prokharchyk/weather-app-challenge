@@ -12,33 +12,34 @@ import {
   AddInfoTitle,
   AddInfoValue,
 } from './todays-forecast.styles';
+import { useEffect, useState } from 'react';
+import { fetchCurerntForecast } from '@/api/fetchCurrentForecast.api';
 
-const data = [
-  { title: 'Fells Like', value: '64°' },
-  { title: 'Humidity', value: '78%' },
-  { title: 'Wind', value: '5 mph' },
-  { title: 'Precipitation', value: '0 in' },
-];
 export const TodaysForecast = () => {
+  const [current, setCurrent] = useState({});
+  useEffect(() => {
+    (async () => setCurrent(await fetchCurerntForecast()))();
+  }, []);
   return (
     <TodaysForecastContainer>
       <StyledTodaysForecast>
         <div>
           <Location>Berlin, Germany</Location>
-          <Date>Tuesday, Aug 5, 2025</Date>
+          <Date>{current.time}</Date>
         </div>
         <TempWrapper>
           <img width='100' height='100' src={StyledWeatherIcon} alt='Weather icon' />
-          <Temp>68°</Temp>
+          <Temp>{current.temperature}</Temp>
         </TempWrapper>
       </StyledTodaysForecast>
       <AddInfoContainer>
-        {data.map(({ title, value }) => (
-          <ForecastCard key={title}>
-            <AddInfoTitle>{title}</AddInfoTitle>
-            <AddInfoValue>{value}</AddInfoValue>
-          </ForecastCard>
-        ))}
+        {current.addInfo &&
+          current.addInfo.map((item) => (
+            <ForecastCard key={Object.keys(item)[0]}>
+              <AddInfoTitle>{Object.keys(item)[0]}</AddInfoTitle>
+              <AddInfoValue>{Object.values(item)[0]}</AddInfoValue>
+            </ForecastCard>
+          ))}
       </AddInfoContainer>
     </TodaysForecastContainer>
   );
