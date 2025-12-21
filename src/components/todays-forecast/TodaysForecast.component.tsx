@@ -35,7 +35,7 @@ export const TodaysForecast = () => {
       <AddInfoContainer>
         {current.addInfo &&
           current.addInfo.map((item) => (
-            <ForecastCard key={Object.keys(item)[0]}>
+            <ForecastCard padding='16px' key={Object.keys(item)[0]}>
               <AddInfoTitle>{Object.keys(item)[0]}</AddInfoTitle>
               <AddInfoValue>{Object.values(item)[0]}</AddInfoValue>
             </ForecastCard>

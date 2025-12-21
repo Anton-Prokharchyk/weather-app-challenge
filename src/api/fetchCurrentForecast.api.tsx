@@ -1,6 +1,6 @@
 import { apiUrl } from './api.constants';
 
-const daysMapper: { [key: number]: string } = {
+export const daysMapper: { [key: number]: string } = {
   0: 'Monday',
   1: 'Tuesday',
   2: 'Wednesday',
@@ -39,7 +39,7 @@ export const fetchCurerntForecast = async () => {
     weather: data.current.weather_code,
     addInfo: [
       {
-        feels: data.current.apparent_temperature.toFixed(0) + '°',
+        ['feels like']: data.current.apparent_temperature.toFixed(0) + '°',
       },
       {
         wind: data.current.wind_speed_10m.toFixed(0) + ' km/h',

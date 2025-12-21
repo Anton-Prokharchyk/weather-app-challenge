@@ -23,7 +23,7 @@ export const SearchBox = styled.div`
   cursor: pointer;
   &:focus-within {
     outline: 2px solid var(--neutral-0);
-    outline-offset: 2px;
+    outline-offset: 4px;
   }
 `;
 
@@ -51,7 +51,7 @@ export const SearchButton = styled.button`
   }
   &:focus {
     outline: 2px solid var(--blue-500);
-    outline-offset: 2px;
+    outline-offset: 4px;
   }
 `;
 

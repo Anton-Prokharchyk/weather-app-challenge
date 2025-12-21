@@ -52,6 +52,7 @@ export const AddInfoContainer = styled.div`
 `;
 
 export const AddInfoTitle = styled.p`
+  text-transform: capitalize;
   color: var(--neutral-200);
   font-size: 16px;
 `;

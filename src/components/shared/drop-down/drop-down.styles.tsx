@@ -1,0 +1,15 @@
+import styled from 'styled-components';
+
+export const DropDownContainer = styled.div`
+  position: absolute;
+  background-color: var(--neutral-800);
+  border-radius: var(--b-radius);
+  border: 1px solid var(--neutral-700);
+  width: ${({ width }) => width || '100%'};
+  padding: 8px;
+  display: ${({ isOpen }) => (isOpen ? 'flex' : 'none')};
+  flex-direction: column;
+  top: 100%;
+  right: 0;
+  margin-top: 8px;
+`;
