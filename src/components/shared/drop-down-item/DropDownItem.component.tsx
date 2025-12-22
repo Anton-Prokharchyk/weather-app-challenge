@@ -6,5 +6,5 @@ export const DropDownItem = ({
   clickHandler,
 }: {
   children: React.ReactNode;
-  clickHandler: MouseEventHandler<HTMLDivElement> | undefined;
+  clickHandler?: MouseEventHandler<HTMLDivElement> | undefined;
 }) => <DropDownItemContainer onClick={clickHandler}>{children}</DropDownItemContainer>;

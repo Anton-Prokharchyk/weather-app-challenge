@@ -1,13 +1,13 @@
 export const apiUrl = 'https://api.open-meteo.com/v1/forecast';
 
 export const daysMapper: { [key: number]: string } = {
-  0: 'Monday',
-  1: 'Tuesday',
-  2: 'Wednesday',
-  3: 'Thursday',
-  4: 'Friday',
-  5: 'Saturday',
-  6: 'Sunday',
+  0: 'Sunday',
+  1: 'Monday',
+  2: 'Tuesday',
+  3: 'Wednesday',
+  4: 'Thursday',
+  5: 'Friday',
+  6: 'Saturday',
 };
 export const monthsMapper: { [key: number]: string } = {
   0: 'Jan',
@@ -25,13 +25,13 @@ export const monthsMapper: { [key: number]: string } = {
 };
 
 export const daysSlugMapper: { [key: number]: string } = {
-  0: 'Mon',
-  1: 'Tue',
-  2: 'Wed',
-  3: 'Thu',
-  4: 'Fri',
-  5: 'Sat',
-  6: 'Sun',
+  0: 'Sun',
+  1: 'Mon',
+  2: 'Tue',
+  3: 'Wed',
+  4: 'Thu',
+  5: 'Fri',
+  6: 'Sat',
 };
 
 export const time24hto12hMapper: { [key: number]: string } = {

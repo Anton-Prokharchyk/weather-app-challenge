@@ -15,7 +15,8 @@ import {
 export const DailyForecast = () => {
   const { isPending, error, data } = useQuery({
     queryKey: queryKeysFabric.dailyForecast(),
-    queryFn: () => fetchDailyForecast(),
+    queryFn: () =>
+      fetchDailyForecast({ temperature_unit: 'fahrenheit', wind_speed_unit: 'mph', precipitation_unit: 'inch' }),
   });
   if (error) return <div>error.message</div>;
   return (

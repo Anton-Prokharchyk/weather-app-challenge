@@ -5,11 +5,12 @@ export const DropDownContainer = styled.div`
   background-color: var(--neutral-800);
   border-radius: var(--b-radius);
   border: 1px solid var(--neutral-700);
-  width: ${({ width }) => width || '100%'};
+  width: ${({ width }) => width || 'auto'};
   padding: 8px;
   display: ${({ isOpen }) => (isOpen ? 'flex' : 'none')};
   flex-direction: column;
   top: 100%;
   right: 0;
   margin-top: 8px;
+  z-index: 1;
 `;

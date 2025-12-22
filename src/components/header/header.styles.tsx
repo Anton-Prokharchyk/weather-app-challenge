@@ -14,3 +14,15 @@ export const StyledDropDownMenu = styled.div`
     outline-offset: 4px;
   }
 `;
+
+export const OptionType = styled.p`
+  font-size: 16px;
+  color: var(--neutral-300);
+  padding: 8px;
+`;
+
+export const Divider = styled.div`
+  width: 100%;
+  height: 1px;
+  background-color: var(--neutral-700);
+`;

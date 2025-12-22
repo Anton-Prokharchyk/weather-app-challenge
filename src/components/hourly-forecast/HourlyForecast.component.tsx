@@ -1,12 +1,15 @@
 import { useEffect, useState, type MouseEvent } from 'react';
+import { useQuery } from '@tanstack/react-query';
 
 import { HourlyForecastCard } from '../hourly-forecast-card/HourlyForecastCard.component';
-import { fetchHourlyForecast, type Hourly } from '@/api/fetchHourlyForecast.api';
+import { fetchHourlyForecast } from '@/api/fetchHourlyForecast.api';
 import { Menu } from '../shared/menu/Menu.component';
 import DropDownIcon from '@/assets/images/icon-dropdown.svg?react';
 import { DropDown } from '../shared/drop-down/DropDown.component';
 import { daysMapper } from '@/api/api.constants';
 import { DropDownItem } from '../shared/drop-down-item/DropDownItem.component';
+import { queryKeysFabric } from '@/tanstack/queryKeys.fabric';
+import { useCurrentForecast } from '@/hooks/useCurrentForecast.hook';
 
 import {
   HourlyForecastContainer,
@@ -14,15 +17,12 @@ import {
   HourlyForecastHead,
   HourlyHeading,
 } from './hourly-forecast.styles';
-import { queryKeysFabric } from '@/tanstack/queryKeys.fabric';
-import { useQuery } from '@tanstack/react-query';
-import { useCurrentForecast } from '@/hooks/useCurrentForecast.hook';
+
+const today = new Date(Date.now()).toLocaleString('en-US', { weekday: 'long' });
 
 export const HourlyForecast = () => {
-  const { isPending: isCurrentPending, data: current = { temperature: '', time: '', weather: '', addInfo: [] } } =
-    useCurrentForecast();
   const [isOpen, setIsOpen] = useState(false);
-  const [currentDay, setCurrentDay] = useState(current.time.split(',')[0]);
+  const [currentDay, setCurrentDay] = useState<string>(today);
   const toggleDropDown = () => setIsOpen(!isOpen);
   const handleSetCurrentDay = (event: MouseEvent<HTMLElement>) => {
     setCurrentDay(event.currentTarget.textContent);
@@ -49,9 +49,9 @@ export const HourlyForecast = () => {
         </Menu>
       </HourlyForecastHead>
       <HourlyForecastList>
-        {isHourlyPending || isCurrentPending
+        {isHourlyPending || !hourly
           ? 'Loading...'
-          : Object.entries(hourly[currentDay?.toLowerCase()]).map(([time, { temperature, weather }]) => (
+          : Object.entries(hourly[currentDay.toLowerCase()]).map(([time, { temperature, weather }]) => (
               <HourlyForecastCard key={time} weather={weather} time={time} temp={temperature} />
             ))}
       </HourlyForecastList>
