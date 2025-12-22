@@ -7,6 +7,7 @@ import { defineConfig, globalIgnores } from 'eslint/config';
 import eslintConfigPrettier from 'eslint-config-prettier';
 import pluginReact from 'eslint-plugin-react';
 import pluginPrettier from 'eslint-plugin-prettier';
+import tanstackQuery from '@tanstack/eslint-plugin-query';
 
 export default defineConfig([
   globalIgnores(['dist']),
@@ -22,22 +23,19 @@ export default defineConfig([
       react: pluginReact,
       'react-hooks': pluginReactHooks,
       prettier: pluginPrettier,
+      '@tanstack/query': tanstackQuery,
     },
     // Rules
     rules: {
-      // Recommended React rules (adjust as needed)
       ...pluginReact.configs.recommended.rules,
       ...pluginReactHooks.configs.recommended.rules,
-      // Prettier rule
       'prettier/prettier': 'error',
-      // Disable prop-types if using TypeScript or modern React practices
       'react/prop-types': 'off',
-      // Not needed in React 17+
       'react/react-in-jsx-scope': 'off',
     },
     settings: {
       react: {
-        version: 'detect', // Automatically detect the react version
+        version: 'detect',
       },
     },
     languageOptions: {
@@ -46,7 +44,6 @@ export default defineConfig([
       globals: {
         ...globals.browser,
         ...globals.node,
-        // Add other globals if needed, e.g., for testing frameworks
       },
       parserOptions: {
         ecmaFeatures: {

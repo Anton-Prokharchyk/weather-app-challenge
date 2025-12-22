@@ -1,14 +1,4 @@
-import { apiUrl } from './api.constants';
-
-const daysMapper: { [key: number]: string } = {
-  0: 'Mon',
-  1: 'Tue',
-  2: 'Wed',
-  3: 'Thu',
-  4: 'Fri',
-  5: 'Sat',
-  6: 'Sun',
-};
+import { apiUrl, daysSlugMapper } from './api.constants';
 
 const params = '?daily=weather_code,temperature_2m_max,temperature_2m_min&latitude=53.9&longitude=27.5667';
 export const fetchDailyForecast = async () => {
@@ -19,7 +9,7 @@ export const fetchDailyForecast = async () => {
     return {
       temperatureMin: temp.toFixed(0),
       temperatureMax: data.daily.temperature_2m_max[index].toFixed(0),
-      day: daysMapper[time],
+      day: daysSlugMapper[time],
       weather: data.daily.weather_code[index],
     };
   });

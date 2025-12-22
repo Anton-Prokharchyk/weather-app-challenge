@@ -1,1 +1,62 @@
 export const apiUrl = 'https://api.open-meteo.com/v1/forecast';
+
+export const daysMapper: { [key: number]: string } = {
+  0: 'Monday',
+  1: 'Tuesday',
+  2: 'Wednesday',
+  3: 'Thursday',
+  4: 'Friday',
+  5: 'Saturday',
+  6: 'Sunday',
+};
+export const monthsMapper: { [key: number]: string } = {
+  0: 'Jan',
+  1: 'Feb',
+  2: 'Mar',
+  3: 'Apr',
+  4: 'May',
+  5: 'Jun',
+  6: 'Jul',
+  7: 'Aug',
+  8: 'Sep',
+  9: 'Oct',
+  10: 'Nov',
+  11: 'Dec',
+};
+
+export const daysSlugMapper: { [key: number]: string } = {
+  0: 'Mon',
+  1: 'Tue',
+  2: 'Wed',
+  3: 'Thu',
+  4: 'Fri',
+  5: 'Sat',
+  6: 'Sun',
+};
+
+export const time24hto12hMapper: { [key: number]: string } = {
+  0: '0 AM',
+  1: '1 AM',
+  2: '2 AM',
+  3: '3 AM',
+  4: '4 AM',
+  5: '5 AM',
+  6: '6 AM',
+  7: '7 AM',
+  8: '8 AM',
+  9: '9 AM',
+  10: '10 AM',
+  11: '11 AM',
+  12: '12 PM',
+  13: '1 PM',
+  14: '2 PM',
+  15: '3 PM',
+  16: '4 PM',
+  17: '5 PM',
+  18: '6 PM',
+  19: '7 PM',
+  20: '8 PM',
+  21: '9 PM',
+  22: '10 PM',
+  23: '11 PM',
+};
