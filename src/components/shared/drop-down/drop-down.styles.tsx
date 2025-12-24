@@ -13,4 +13,5 @@ export const DropDownContainer = styled.div`
   right: 0;
   margin-top: 8px;
   z-index: 1;
+  gap: 4px;
 `;

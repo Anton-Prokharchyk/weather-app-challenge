@@ -1,9 +1,11 @@
-import { useQuery } from '@tanstack/react-query';
+import { useContext } from 'react';
 
 import StyledWeatherIcon from '@/assets/images/icon-sunny.webp';
-import { fetchCurerntForecast } from '@/api/fetchCurrentForecast.api';
-import { queryKeysFabric } from '@/tanstack/queryKeys.fabric';
+import { addUnitsSymbol, type unitsMapperType, type unitsType } from '@/utils';
 import { ForecastCard } from '../shared/forecast-card/ForecastCard.component';
+import { useCurrentForecast } from '@/hooks/useCurrentForecast.hook';
+import { UnitsContext } from '@/contexts/units/units.context';
+import type { units } from '@/contexts/units/Units.provider';
 
 import {
   TodaysForecastContainer,
@@ -16,10 +18,19 @@ import {
   AddInfoTitle,
   AddInfoValue,
 } from './todays-forecast.styles';
-import { useCurrentForecast } from '@/hooks/useCurrentForecast.hook';
+
+const unitsSymbolsMapper: Record<string, keyof units> = {
+  ['feels like']: 'temperature_unit',
+  wind: 'wind_speed_unit',
+  precipitation: 'precipitation_unit',
+  humidity: 'humidity_unit',
+};
 
 export const TodaysForecast = () => {
-  const { isPending, data: current = { temperature: '', time: '', weather: '', addInfo: [] } } = useCurrentForecast();
+  const { selectedUnits } = useContext(UnitsContext);
+
+  const { isPending, data: current = { temperature: '', time: '', weather: '', addInfo: [] } } =
+    useCurrentForecast(selectedUnits);
 
   return (
     <TodaysForecastContainer>
@@ -34,7 +45,7 @@ export const TodaysForecast = () => {
             </div>
             <TempWrapper>
               <img width='100' height='100' src={StyledWeatherIcon} alt='Weather icon' />
-              <Temp>{current.temperature}</Temp>
+              <Temp>{addUnitsSymbol(current.temperature, selectedUnits.temperature_unit)}</Temp>
             </TempWrapper>
           </StyledTodaysForecast>
           <AddInfoContainer>
@@ -42,7 +53,9 @@ export const TodaysForecast = () => {
               current.addInfo.map((item) => (
                 <ForecastCard padding='16px' key={Object.keys(item)[0]}>
                   <AddInfoTitle>{Object.keys(item)[0]}</AddInfoTitle>
-                  <AddInfoValue>{Object.values(item)[0]}</AddInfoValue>
+                  <AddInfoValue>
+                    {addUnitsSymbol(Object.values(item)[0], selectedUnits[unitsSymbolsMapper[Object.keys(item)[0]]])}
+                  </AddInfoValue>
                 </ForecastCard>
               ))}
           </AddInfoContainer>

@@ -6,14 +6,19 @@ import DropDownIcon from '@/assets/images/icon-dropdown.svg?react';
 import { Menu } from '../shared/menu/Menu.component';
 import { DropDown } from '../shared/drop-down/DropDown.component';
 import { DropDownItem } from '../shared/drop-down-item/DropDownItem.component';
+import { UnitsContext } from '@/contexts/units/units.context';
 
 import { Divider, OptionType, StyledDropDownMenu, StyledHeader } from './header.styles';
-import { UnitsContext } from '@/contexts/units/units.context';
 
 const unitsKeysMapper = {
   temperature_unit: 'Temperature',
   wind_speed_unit: 'Wind Speed',
   precipitation_unit: 'Precipitation',
+};
+const unitsFilter = {
+  temperature_unit: ['celsius', 'fahrenheit'],
+  wind_speed_unit: ['kmh', 'mph'],
+  precipitation_unit: ['inch', 'mm'],
 };
 
 const unitsOptionMapper = {
@@ -25,15 +30,12 @@ const unitsOptionMapper = {
   mm: 'Mollimeters (mm)',
 };
 
-const unitsFilter = {
-  temperature_unit: ['celsius', 'fahrenheit'],
-  wind_speed_unit: ['kmh', 'mph'],
-  precipitation_unit: ['inch', 'mm'],
-};
-
 export const Header = () => {
-  const { units, setUnits } = useContext(UnitsContext);
+  const { selectedUnits, setSelectedUnits, handleSetImnperialUnits } = useContext(UnitsContext);
   const [isOpen, setIsOpen] = useState(false);
+  const handleSelectUnit = (unitTypeToChange: string, valueToChange: string) => {
+    setSelectedUnits({ ...selectedUnits, [unitTypeToChange]: valueToChange });
+  };
   const toggleDropDown = () => setIsOpen(!isOpen);
   return (
     <StyledHeader>
@@ -45,15 +47,25 @@ export const Header = () => {
           <SettingsIcon />
           <p>Units</p>
           <DropDownIcon />
-          <DropDown isOpen={isOpen}>
-            <DropDownItem>Switch to Imperial</DropDownItem>
+          <DropDown width='200px' isOpen={isOpen}>
+            <DropDownItem clickHandler={handleSetImnperialUnits}>Switch to Imperial</DropDownItem>
             {Object.entries(unitsFilter).map(([key, values]) => {
               return (
                 <>
                   <OptionType>{unitsKeysMapper[key]}</OptionType>
-                  {values.map((value) => (
-                    <DropDownItem key={value}>{unitsOptionMapper[value]}</DropDownItem>
-                  ))}
+                  {values.map((value) => {
+                    if (selectedUnits[key] === value)
+                      return (
+                        <DropDownItem clickHandler={() => handleSelectUnit(key, value)} selected key={value}>
+                          {unitsOptionMapper[value]}
+                        </DropDownItem>
+                      );
+                    return (
+                      <DropDownItem clickHandler={() => handleSelectUnit(key, value)} key={value}>
+                        {unitsOptionMapper[value]}
+                      </DropDownItem>
+                    );
+                  })}
                   <Divider />
                 </>
               );

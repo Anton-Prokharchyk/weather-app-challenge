@@ -1,9 +1,12 @@
+import { useContext } from 'react';
 import { useQuery } from '@tanstack/react-query';
 
 import { ForecastCard } from '../shared/forecast-card/ForecastCard.component';
 import StyledWeatherIcon from '@/assets/images/icon-sunny.webp';
 import { fetchDailyForecast } from '@/api/fetchDailyForecast.api';
 import { queryKeysFabric } from '@/tanstack/queryKeys.fabric';
+import { UnitsContext } from '@/contexts/units/units.context';
+import { addUnitsSymbol } from '@/utils';
 
 import {
   DailyForecastContainer,
@@ -13,10 +16,10 @@ import {
 } from './daily-forecast.styles';
 
 export const DailyForecast = () => {
+  const { selectedUnits } = useContext(UnitsContext);
   const { isPending, error, data } = useQuery({
-    queryKey: queryKeysFabric.dailyForecast(),
-    queryFn: () =>
-      fetchDailyForecast({ temperature_unit: 'fahrenheit', wind_speed_unit: 'mph', precipitation_unit: 'inch' }),
+    queryKey: queryKeysFabric.dailyForecast(selectedUnits),
+    queryFn: () => fetchDailyForecast(selectedUnits),
   });
   if (error) return <div>error.message</div>;
   return (
@@ -31,8 +34,8 @@ export const DailyForecast = () => {
                   <p>{day}</p>
                   <img width='50' height='50' src={StyledWeatherIcon} alt='Weather icon' />
                   <TempContainer>
-                    <p>{temperatureMax}°</p>
-                    <p>{temperatureMin}°</p>
+                    <p>{addUnitsSymbol(temperatureMax, selectedUnits.temperature_unit)}</p>
+                    <p>{addUnitsSymbol(temperatureMin, selectedUnits.temperature_unit)}</p>
                   </TempContainer>
                 </ForecastCard>
               );

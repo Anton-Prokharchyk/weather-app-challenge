@@ -1,4 +1,4 @@
-import { useEffect, useState, type MouseEvent } from 'react';
+import { useContext, useState, type MouseEvent } from 'react';
 import { useQuery } from '@tanstack/react-query';
 
 import { HourlyForecastCard } from '../hourly-forecast-card/HourlyForecastCard.component';
@@ -9,7 +9,6 @@ import { DropDown } from '../shared/drop-down/DropDown.component';
 import { daysMapper } from '@/api/api.constants';
 import { DropDownItem } from '../shared/drop-down-item/DropDownItem.component';
 import { queryKeysFabric } from '@/tanstack/queryKeys.fabric';
-import { useCurrentForecast } from '@/hooks/useCurrentForecast.hook';
 
 import {
   HourlyForecastContainer,
@@ -17,6 +16,7 @@ import {
   HourlyForecastHead,
   HourlyHeading,
 } from './hourly-forecast.styles';
+import { UnitsContext } from '@/contexts/units/units.context';
 
 const today = new Date(Date.now()).toLocaleString('en-US', { weekday: 'long' });
 
@@ -27,9 +27,10 @@ export const HourlyForecast = () => {
   const handleSetCurrentDay = (event: MouseEvent<HTMLElement>) => {
     setCurrentDay(event.currentTarget.textContent);
   };
+  const { selectedUnits } = useContext(UnitsContext);
   const { isPending: isHourlyPending, data: hourly } = useQuery({
-    queryKey: queryKeysFabric.hourlyForecast(),
-    queryFn: () => fetchHourlyForecast(),
+    queryKey: queryKeysFabric.hourlyForecast(selectedUnits),
+    queryFn: () => fetchHourlyForecast(selectedUnits),
   });
 
   return (
@@ -52,7 +53,13 @@ export const HourlyForecast = () => {
         {isHourlyPending || !hourly
           ? 'Loading...'
           : Object.entries(hourly[currentDay.toLowerCase()]).map(([time, { temperature, weather }]) => (
-              <HourlyForecastCard key={time} weather={weather} time={time} temp={temperature} />
+              <HourlyForecastCard
+                units={selectedUnits.temperature_unit}
+                key={time}
+                weather={weather}
+                time={time}
+                temp={temperature}
+              />
             ))}
       </HourlyForecastList>
     </HourlyForecastContainer>
