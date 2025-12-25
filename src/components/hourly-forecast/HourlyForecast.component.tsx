@@ -9,12 +9,14 @@ import { DropDown } from '../shared/drop-down/DropDown.component';
 import { daysMapper } from '@/api/api.constants';
 import { DropDownItem } from '../shared/drop-down-item/DropDownItem.component';
 import { queryKeysFabric } from '@/tanstack/queryKeys.fabric';
+import { Loader } from '../shared/search-loader/SearchLoader.component';
 
 import {
   HourlyForecastContainer,
   HourlyForecastList,
   HourlyForecastHead,
   HourlyHeading,
+  HorulyScrollBarWrapper,
 } from './hourly-forecast.styles';
 import { UnitsContext } from '@/contexts/units/units.context';
 
@@ -50,9 +52,11 @@ export const HourlyForecast = () => {
         </Menu>
       </HourlyForecastHead>
       <HourlyForecastList>
-        {isHourlyPending || !hourly
-          ? 'Loading...'
-          : Object.entries(hourly[currentDay.toLowerCase()]).map(([time, { temperature, weather }]) => (
+        <HorulyScrollBarWrapper>
+          {isHourlyPending || !hourly ? (
+            <Loader />
+          ) : (
+            Object.entries(hourly[currentDay.toLowerCase()]).map(([time, { temperature, weather }]) => (
               <HourlyForecastCard
                 units={selectedUnits.temperature_unit}
                 key={time}
@@ -60,7 +64,9 @@ export const HourlyForecast = () => {
                 time={time}
                 temp={temperature}
               />
-            ))}
+            ))
+          )}
+        </HorulyScrollBarWrapper>
       </HourlyForecastList>
     </HourlyForecastContainer>
   );

@@ -16,6 +16,7 @@ import {
 } from './daily-forecast.styles';
 
 export const DailyForecast = () => {
+  const 
   const { selectedUnits } = useContext(UnitsContext);
   const { isPending, error, data } = useQuery({
     queryKey: queryKeysFabric.dailyForecast(selectedUnits),
@@ -26,20 +27,24 @@ export const DailyForecast = () => {
     <DailyForecastWrapper>
       <DailyForecastTitle>Daily forecast</DailyForecastTitle>
       <DailyForecastContainer>
-        {isPending
-          ? 'Loading...'
-          : data.map(({ day, temperatureMax, temperatureMin, weather }) => {
-              return (
-                <ForecastCard position='center' key={day}>
-                  <p>{day}</p>
-                  <img width='50' height='50' src={StyledWeatherIcon} alt='Weather icon' />
-                  <TempContainer>
-                    <p>{addUnitsSymbol(temperatureMax, selectedUnits.temperature_unit)}</p>
-                    <p>{addUnitsSymbol(temperatureMin, selectedUnits.temperature_unit)}</p>
-                  </TempContainer>
-                </ForecastCard>
-              );
-            })}
+        {isPending ? (
+          for() {
+
+          }
+        ) : (
+          data.map(({ day, temperatureMax, temperatureMin, weather }) => {
+            return (
+              <ForecastCard position='center' key={day}>
+                <p>{day}</p>
+                <img width='50' height='50' src={StyledWeatherIcon} alt='Weather icon' />
+                <TempContainer>
+                  <p>{addUnitsSymbol(temperatureMax, selectedUnits.temperature_unit)}</p>
+                  <p>{addUnitsSymbol(temperatureMin, selectedUnits.temperature_unit)}</p>
+                </TempContainer>
+              </ForecastCard>
+            );
+          })
+        )}
       </DailyForecastContainer>
     </DailyForecastWrapper>
   );

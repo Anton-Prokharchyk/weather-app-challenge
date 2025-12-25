@@ -1,7 +1,7 @@
-import StyledWeatherIcon from '@/assets/images/icon-sunny.webp';
 import { addUnitsSymbol, type unitsType } from '@/utils';
 
 import { HourlyCardContainer, HourlyTime, HourlyTemp } from './hourly-forecast-card.styles';
+import { getWeatherIconByCode, type weatherCodesType } from '../icons/weather-icon/getWeatherIconByCode';
 
 export const HourlyForecastCard = ({
   units,
@@ -11,12 +11,12 @@ export const HourlyForecastCard = ({
 }: {
   time: string;
   temp: number;
-  weather: number;
+  weather: weatherCodesType;
   units: unitsType;
 }) => {
   return (
     <HourlyCardContainer>
-      <img width='50' height='50' src={StyledWeatherIcon} alt='Weather icon' />
+      {getWeatherIconByCode(weather)}
       <HourlyTime>{time}</HourlyTime>
       <HourlyTemp>{addUnitsSymbol(temp, units)}</HourlyTemp>
     </HourlyCardContainer>

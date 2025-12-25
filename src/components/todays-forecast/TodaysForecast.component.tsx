@@ -1,10 +1,11 @@
 import { useContext } from 'react';
 
 import StyledWeatherIcon from '@/assets/images/icon-sunny.webp';
-import { addUnitsSymbol, type unitsMapperType, type unitsType } from '@/utils';
+import { addUnitsSymbol } from '@/utils';
 import { ForecastCard } from '../shared/forecast-card/ForecastCard.component';
 import { useCurrentForecast } from '@/hooks/useCurrentForecast.hook';
 import { UnitsContext } from '@/contexts/units/units.context';
+import { Loader } from '../shared/search-loader/SearchLoader.component';
 import type { units } from '@/contexts/units/Units.provider';
 
 import {
@@ -35,7 +36,7 @@ export const TodaysForecast = () => {
   return (
     <TodaysForecastContainer>
       {isPending ? (
-        'Loading...'
+        <Loader />
       ) : (
         <>
           <StyledTodaysForecast>

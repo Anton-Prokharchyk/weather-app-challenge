@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, Fragment } from 'react';
 
 import Logo from '@/assets/images/logo.svg?react';
 import SettingsIcon from '@/assets/images/icon-units.svg?react';
@@ -51,7 +51,7 @@ export const Header = () => {
             <DropDownItem clickHandler={handleSetImnperialUnits}>Switch to Imperial</DropDownItem>
             {Object.entries(unitsFilter).map(([key, values]) => {
               return (
-                <>
+                <Fragment key={key}>
                   <OptionType>{unitsKeysMapper[key]}</OptionType>
                   {values.map((value) => {
                     if (selectedUnits[key] === value)
@@ -67,7 +67,7 @@ export const Header = () => {
                     );
                   })}
                   <Divider />
-                </>
+                </Fragment>
               );
             })}
           </DropDown>
