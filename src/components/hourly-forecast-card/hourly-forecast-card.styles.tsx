@@ -9,5 +9,5 @@ export const HourlyCardContainer = styled.div`
   background-color: var(--neutral-700);
   border-radius: var(--b-radius);
   border: 1px solid var(--neutral-600);
-  min-height: 50px;
+  min-height: 66px;
 `;

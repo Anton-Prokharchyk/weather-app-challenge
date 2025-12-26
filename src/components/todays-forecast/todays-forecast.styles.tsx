@@ -9,8 +9,9 @@ export const TodaysForecastContainer = styled.section`
   gap: 32px;
 `;
 
-export const StyledTodaysForecast = styled.div`
-  background: url(${bgImg}) no-repeat center/cover;
+export const StyledTodaysForecast = styled.div<{ isLoading: boolean }>`
+  ${({ isLoading }) =>
+    isLoading ? 'background-color: var(--neutral-800)' : `background: url(${bgImg}) no-repeat center/cover`};
 
   border-radius: 20px;
   flex: 1 1 auto;
@@ -18,7 +19,7 @@ export const StyledTodaysForecast = styled.div`
   width: 100%;
   padding: 16px;
   display: flex;
-  justify-content: space-between;
+  justify-content: ${({ isLoading }) => (isLoading ? 'center' : 'space-between')};
   align-items: center;
 `;
 
@@ -59,7 +60,6 @@ export const AddInfoTitle = styled.p`
 
 export const AddInfoValue = styled.p`
   font-family: 'DS', sans-serif;
-  color: var(--neutral-100);
   font-weight: 400;
   font-size: 24px;
 `;

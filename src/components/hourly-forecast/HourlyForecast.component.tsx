@@ -53,7 +53,7 @@ export const HourlyForecast = () => {
         <Menu clickHandler={toggleDropDown}>
           <p>{currentDay}</p>
           <DropDownIcon />
-          <DropDown isOpen={isOpen} width='300px' setIsOpen={toggleDropDown}>
+          <DropDown isOpen={isOpen} width='200px' setIsOpen={toggleDropDown}>
             {days.map((day) => (
               <DropDownItem clickHandler={handleSetCurrentDay} key={day}>
                 {day}

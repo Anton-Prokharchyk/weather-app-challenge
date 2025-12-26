@@ -18,27 +18,29 @@ import {
   AddInfoTitle,
   AddInfoValue,
 } from './todays-forecast.styles';
+import { TodaysLoader } from './todays-loader/TodaysLoader.component';
 
-const unitsSymbolsMapper: Record<string, keyof units> = {
+const unitsSymbolsMapper = {
   ['feels like']: 'temperature_unit',
   wind: 'wind_speed_unit',
   precipitation: 'precipitation_unit',
   humidity: 'humidity_unit',
-};
+} as const satisfies Record<string, keyof units>;
+
+export type todaysAddInfoType = keyof typeof unitsSymbolsMapper;
 
 export const TodaysForecast = () => {
   const { selectedUnits } = useContext(UnitsContext);
 
-  const { isPending, data: current = { temperature: '', time: '', weather: '', addInfo: [] } } =
-    useCurrentForecast(selectedUnits);
+  const { isPending, data: current } = useCurrentForecast(selectedUnits);
 
   return (
     <TodaysForecastContainer>
-      {isPending ? (
-        <p>Loading...</p>
-      ) : (
-        <>
-          <StyledTodaysForecast>
+      <StyledTodaysForecast isLoading={isPending}>
+        {isPending || !current ? (
+          <TodaysLoader />
+        ) : (
+          <>
             <div>
               <Location>Berlin, Germany</Location>
               <Date>{current.time}</Date>
@@ -47,20 +49,19 @@ export const TodaysForecast = () => {
               <img width='100' height='100' src={StyledWeatherIcon} alt='Weather icon' />
               <Temp>{addUnitsSymbol(current.temperature, selectedUnits.temperature_unit)}</Temp>
             </TempWrapper>
-          </StyledTodaysForecast>
-          <AddInfoContainer>
-            {current.addInfo &&
-              current.addInfo.map((item) => (
-                <ForecastCard padding='16px' key={Object.keys(item)[0]}>
-                  <AddInfoTitle>{Object.keys(item)[0]}</AddInfoTitle>
-                  <AddInfoValue>
-                    {addUnitsSymbol(Object.values(item)[0], selectedUnits[unitsSymbolsMapper[Object.keys(item)[0]]])}
-                  </AddInfoValue>
-                </ForecastCard>
-              ))}
-          </AddInfoContainer>
-        </>
-      )}
+          </>
+        )}
+      </StyledTodaysForecast>
+      <AddInfoContainer>
+        {(Object.keys(unitsSymbolsMapper) as todaysAddInfoType[]).map((item) => (
+          <ForecastCard padding='16px' key={item}>
+            <AddInfoTitle>{item}</AddInfoTitle>
+            <AddInfoValue>
+              {current ? addUnitsSymbol(current[item], selectedUnits[unitsSymbolsMapper[item]]) : '-'}
+            </AddInfoValue>
+          </ForecastCard>
+        ))}
+      </AddInfoContainer>
     </TodaysForecastContainer>
   );
 };
