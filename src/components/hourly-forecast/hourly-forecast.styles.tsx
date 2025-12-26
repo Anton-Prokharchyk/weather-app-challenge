@@ -27,7 +27,7 @@ export const HourlyHeading = styled.h2`
   font-weight: 600;
 `;
 
-export const HorulyScrollBarWrapper = styled.div`
+export const HourlyScrollBarWrapper = styled.div`
   padding-right: 30px;
 
   display: flex;
@@ -64,4 +64,15 @@ export const HourlyForecastList = styled.div`
     border: solid 1px var(--neutral-600);
     border-radius: 4px;
   }
+`;
+
+export const HourlyTime = styled.p`
+  flex: 1 1 auto;
+  font-size: 20px;
+  font-weight: 400;
+`;
+
+export const HourlyTemp = styled.p`
+  font-size: 16px;
+  font-weight: 400;
 `;

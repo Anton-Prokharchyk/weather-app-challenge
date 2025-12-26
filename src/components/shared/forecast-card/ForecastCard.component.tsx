@@ -5,7 +5,7 @@ export const ForecastCard = ({
   children,
   position,
 }: {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   padding?: string;
   position?: 'center';
 }) => {

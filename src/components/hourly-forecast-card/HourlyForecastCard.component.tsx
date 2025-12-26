@@ -1,24 +1,7 @@
-import { addUnitsSymbol, type unitsType } from '@/utils';
+import type { ReactNode } from 'react';
 
-import { HourlyCardContainer, HourlyTime, HourlyTemp } from './hourly-forecast-card.styles';
-import { getWeatherIconByCode, type weatherCodesType } from '../icons/weather-icon/getWeatherIconByCode';
+import { HourlyCardContainer } from './hourly-forecast-card.styles';
 
-export const HourlyForecastCard = ({
-  units,
-  time,
-  temp,
-  weather,
-}: {
-  time: string;
-  temp: number;
-  weather: weatherCodesType;
-  units: unitsType;
-}) => {
-  return (
-    <HourlyCardContainer>
-      {getWeatherIconByCode(weather)}
-      <HourlyTime>{time}</HourlyTime>
-      <HourlyTemp>{addUnitsSymbol(temp, units)}</HourlyTemp>
-    </HourlyCardContainer>
-  );
+export const HourlyForecastCard = ({ children }: { children?: ReactNode }) => {
+  return <HourlyCardContainer>{children}</HourlyCardContainer>;
 };

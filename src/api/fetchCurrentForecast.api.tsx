@@ -9,9 +9,6 @@ export const fetchCurerntForecast = async (units: units | undefined = undefined)
     for (const [key, value] of Object.entries(units)) {
       unitsParams += `&${key}=${value}`;
     }
-  console.log('units', units);
-
-  console.log('unitsParams', unitsParams);
   const res = await fetch(apiUrl + params + unitsParams);
   const data = await res.json();
   const day = daysMapper[new Date(data.current.time).getDay()];

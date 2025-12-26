@@ -1,16 +1,21 @@
 import type { units } from '@/contexts/units/Units.provider';
 import { apiUrl, daysSlugMapper } from './api.constants';
+import type { weatherCodesType } from '@/components/icons';
+
+type Daily = {
+  temperatureMin: number;
+  temperatureMax: number;
+  day: (typeof daysSlugMapper)[keyof typeof daysSlugMapper];
+  weather: weatherCodesType;
+}[];
 
 const params = '?daily=weather_code,temperature_2m_max,temperature_2m_min&latitude=53.9&longitude=27.5667';
-export const fetchDailyForecast = async (units: units | undefined = undefined) => {
+export const fetchDailyForecast = async (units: units | undefined = undefined): Promise<Daily> => {
   let unitsParams = ``;
   if (units)
     for (const [key, value] of Object.entries(units)) {
       unitsParams += `&${key}=${value}`;
     }
-  console.log('units', units);
-
-  console.log('unitsParams', unitsParams);
   const res = await fetch(apiUrl + params + unitsParams);
   const data = await res.json();
   const weatherMap = data.daily.temperature_2m_min.map((temp: number, index: number) => {

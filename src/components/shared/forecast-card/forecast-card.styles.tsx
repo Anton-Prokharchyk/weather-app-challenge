@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const ForecastCardContainer = styled.div`
+export const ForecastCardContainer = styled.div<{ padding?: string; position?: string }>`
   display: flex;
   flex: 1 1 auto;
   flex-direction: column;

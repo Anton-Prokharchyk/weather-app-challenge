@@ -1,39 +1,50 @@
-import { useContext, useState, type MouseEvent } from 'react';
+import { useContext, useMemo, useState, type MouseEvent } from 'react';
 import { useQuery } from '@tanstack/react-query';
 
-import { HourlyForecastCard } from '../hourly-forecast-card/HourlyForecastCard.component';
 import { fetchHourlyForecast } from '@/api/fetchHourlyForecast.api';
 import { Menu } from '../shared/menu/Menu.component';
 import DropDownIcon from '@/assets/images/icon-dropdown.svg?react';
 import { DropDown } from '../shared/drop-down/DropDown.component';
-import { daysMapper } from '@/api/api.constants';
 import { DropDownItem } from '../shared/drop-down-item/DropDownItem.component';
 import { queryKeysFabric } from '@/tanstack/queryKeys.fabric';
-import { Loader } from '../shared/search-loader/SearchLoader.component';
+import { days, loaderCurrentDay, loaderHourly } from './horuly-forecast.constants';
+import { UnitsContext } from '@/contexts/units/units.context';
+import { addUnitsSymbol } from '@/utils';
+import { HourlyForecastCard } from '../hourly-forecast-card/HourlyForecastCard.component';
+import { getWeatherIconByCode } from '../icons';
 
 import {
   HourlyForecastContainer,
   HourlyForecastList,
   HourlyForecastHead,
   HourlyHeading,
-  HorulyScrollBarWrapper,
+  HourlyScrollBarWrapper,
+  HourlyTime,
+  HourlyTemp,
 } from './hourly-forecast.styles';
-import { UnitsContext } from '@/contexts/units/units.context';
-
-const today = new Date(Date.now()).toLocaleString('en-US', { weekday: 'long' });
 
 export const HourlyForecast = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [currentDay, setCurrentDay] = useState<string>(today);
-  const toggleDropDown = () => setIsOpen(!isOpen);
-  const handleSetCurrentDay = (event: MouseEvent<HTMLElement>) => {
-    setCurrentDay(event.currentTarget.textContent);
-  };
   const { selectedUnits } = useContext(UnitsContext);
   const { isPending: isHourlyPending, data: hourly } = useQuery({
     queryKey: queryKeysFabric.hourlyForecast(selectedUnits),
     queryFn: () => fetchHourlyForecast(selectedUnits),
   });
+
+  const defaultDay = useMemo(() => {
+    if (!hourly) return loaderCurrentDay;
+    const key = Object.keys(hourly)[0];
+    return key.charAt(0).toUpperCase() + key.slice(1);
+  }, [hourly]);
+
+  const [selectedDay, setSelectedDay] = useState<string | null>(null);
+
+  const currentDay = selectedDay ?? defaultDay;
+
+  const [isOpen, setIsOpen] = useState(false);
+  const toggleDropDown = () => setIsOpen(!isOpen);
+  const handleSetCurrentDay = (event: MouseEvent<HTMLElement>) => {
+    if (event.currentTarget) setSelectedDay(event.currentTarget.textContent);
+  };
 
   return (
     <HourlyForecastContainer>
@@ -43,7 +54,7 @@ export const HourlyForecast = () => {
           <p>{currentDay}</p>
           <DropDownIcon />
           <DropDown isOpen={isOpen} width='300px' setIsOpen={toggleDropDown}>
-            {Object.values(daysMapper).map((day) => (
+            {days.map((day) => (
               <DropDownItem clickHandler={handleSetCurrentDay} key={day}>
                 {day}
               </DropDownItem>
@@ -52,21 +63,17 @@ export const HourlyForecast = () => {
         </Menu>
       </HourlyForecastHead>
       <HourlyForecastList>
-        <HorulyScrollBarWrapper>
-          {isHourlyPending || !hourly ? (
-            <Loader />
-          ) : (
-            Object.entries(hourly[currentDay.toLowerCase()]).map(([time, { temperature, weather }]) => (
-              <HourlyForecastCard
-                units={selectedUnits.temperature_unit}
-                key={time}
-                weather={weather}
-                time={time}
-                temp={temperature}
-              />
-            ))
-          )}
-        </HorulyScrollBarWrapper>
+        <HourlyScrollBarWrapper>
+          {isHourlyPending || !hourly
+            ? loaderHourly
+            : Object.entries(hourly[currentDay.toLowerCase()]).map(([time, { temperature, weather }]) => (
+                <HourlyForecastCard key={time}>
+                  {getWeatherIconByCode(weather)}
+                  <HourlyTime>{time}</HourlyTime>
+                  <HourlyTemp>{addUnitsSymbol(temperature, selectedUnits.temperature_unit)}</HourlyTemp>
+                </HourlyForecastCard>
+              ))}
+        </HourlyScrollBarWrapper>
       </HourlyForecastList>
     </HourlyForecastContainer>
   );

@@ -14,6 +14,7 @@ export const DailyForecastTitle = styled.h2`
 export const DailyForecastContainer = styled.div`
   display: flex;
   gap: 1.5%;
+  flex: 1 1 auto;
 `;
 
 export const TempContainer = styled.div`
