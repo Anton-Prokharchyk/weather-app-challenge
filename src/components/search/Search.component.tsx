@@ -9,13 +9,11 @@ export const Search = () => {
   const toggleDropDown = () => setIsOpen(!isOpen);
   return (
     <SearchContainer>
-      <label>
-        <SearchBox onClick={toggleDropDown}>
-          <StyledSearchIcon />
-          <SearchInput type='text' placeholder='Search for a place...' />
-          <DropDown isOpen={isOpen}>123</DropDown>
-        </SearchBox>
-      </label>
+      <SearchBox onClick={toggleDropDown}>
+        <StyledSearchIcon />
+        <SearchInput tabIndex={0} type='text' placeholder='Search for a place...' />
+        <DropDown isOpen={isOpen}>123</DropDown>
+      </SearchBox>
       <SearchButton>search</SearchButton>
     </SearchContainer>
   );

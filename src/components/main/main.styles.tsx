@@ -22,5 +22,5 @@ export const MainForecastContainer = styled.section`
   grid-template-columns: 2fr 1fr;
   grid-template-rows: 2fr 1fr;
   gap: 32px;
-  height: 78%;
+  height: 77%;
 `;

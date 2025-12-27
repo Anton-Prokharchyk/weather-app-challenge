@@ -5,14 +5,28 @@ export const DropDown = ({
   isOpen,
   width,
   setIsOpen,
+  clickHandler,
 }: {
   children: React.ReactNode;
   isOpen: boolean;
   width?: string;
-  setIsOpen?: () => void;
+  setIsOpen?: (boolean) => void;
+  clickHandler?: () => void;
 }) => {
   return (
-    <DropDownContainer onClick={setIsOpen} isOpen={isOpen} width={width}>
+    <DropDownContainer
+      tabIndex={-1}
+      onBlur={() => setIsOpen(false)}
+      onClick={(e) => {
+        clickHandler();
+        console.log('event', e);
+      }}
+      onClickCapture={(e) => {
+        console.log('event', e);
+      }}
+      isOpen={isOpen}
+      width={width}
+    >
       {children}
     </DropDownContainer>
   );

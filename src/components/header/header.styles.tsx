@@ -8,7 +8,7 @@ export const StyledHeader = styled.header`
 `;
 
 export const StyledDropDownMenu = styled.div`
-  &:focus-within {
+  &:focus-visible {
     border-radius: var(--b-radius);
     outline: 2px solid var(--neutral-0);
     outline-offset: 4px;

@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const DropDownContainer = styled.div`
+export const DropDownContainer = styled.div<{ width?: string; isOpen: boolean }>`
   position: absolute;
   background-color: var(--neutral-800);
   border-radius: var(--b-radius);
@@ -14,4 +14,7 @@ export const DropDownContainer = styled.div`
   margin-top: 8px;
   z-index: 1;
   gap: 4px;
+  &:nth-child(frist):focus-visible {
+    outline: 2px solid var(--neutral-0);
+  }
 `;

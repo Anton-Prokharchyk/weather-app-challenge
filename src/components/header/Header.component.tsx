@@ -48,7 +48,9 @@ export const Header = () => {
           <p>Units</p>
           <DropDownIcon />
           <DropDown width='200px' isOpen={isOpen}>
-            <DropDownItem clickHandler={handleSetImnperialUnits}>Switch to Imperial</DropDownItem>
+            <DropDownItem tabIndex={0} clickHandler={handleSetImnperialUnits}>
+              Switch to Imperial
+            </DropDownItem>
             {Object.entries(unitsFilter).map(([key, values]) => {
               return (
                 <Fragment key={key}>
