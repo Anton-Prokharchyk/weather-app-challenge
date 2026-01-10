@@ -6,14 +6,14 @@ import { DropDownItemContainer, DropDownItemContainerWithIcon } from './drop-dow
 
 export const DropDownItem = ({
   children,
-  clickHandler,
+  clickHandler = () => {},
   selected = false,
   ...otherProps
 }: {
   selected?: boolean;
   children: React.ReactNode;
-  clickHandler?: MouseEventHandler<HTMLDivElement> | undefined;
-  otherProps: HTMLAttributes<HTMLDivElement>;
+  clickHandler?: MouseEventHandler<HTMLDivElement>;
+  otherProps?: HTMLAttributes<HTMLDivElement>;
 }) => {
   if (selected)
     return (

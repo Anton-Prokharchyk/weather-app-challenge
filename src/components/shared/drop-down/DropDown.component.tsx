@@ -4,13 +4,13 @@ export const DropDown = ({
   children,
   isOpen,
   width,
-  setIsOpen,
-  clickHandler,
+  setIsOpen = () => {},
+  clickHandler = () => {},
 }: {
   children: React.ReactNode;
   isOpen: boolean;
   width?: string;
-  setIsOpen?: (boolean) => void;
+  setIsOpen?: (boolean: boolean) => void;
   clickHandler?: () => void;
 }) => {
   return (
