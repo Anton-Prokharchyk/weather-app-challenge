@@ -22,7 +22,6 @@ export const DailyForecast = () => {
     queryKey: queryKeysFabric.dailyForecast(selectedUnits),
     queryFn: () => fetchDailyForecast(selectedUnits),
   });
-  console.log('data', data);
 
   if (error) return <div>error.message</div>;
 

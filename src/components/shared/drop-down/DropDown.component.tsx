@@ -16,7 +16,7 @@ export const DropDown = ({
   return (
     <DropDownContainer
       tabIndex={-1}
-      onBlur={() => setIsOpen(false)}
+      // onBlur={() => setIsOpen(false)}
       onClick={(e) => {
         clickHandler();
         console.log('event', e);
@@ -24,7 +24,7 @@ export const DropDown = ({
       onClickCapture={(e) => {
         console.log('event', e);
       }}
-      isOpen={isOpen}
+      isOpen={isOpen && !!children}
       width={width}
     >
       {children}

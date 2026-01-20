@@ -1,6 +1,6 @@
-import type { units } from '@/contexts/units/Units.provider';
-import { apiUrl, daysSlugMapper } from './api.constants';
 import type { weatherCodesType } from '@/components/icons';
+import type { units } from '@/contexts/units/Units.provider';
+import { apiForecastUrl, daysSlugMapper } from './api.constants';
 
 type Daily = {
   temperatureMin: number;
@@ -16,7 +16,7 @@ export const fetchDailyForecast = async (units: units | undefined = undefined): 
     for (const [key, value] of Object.entries(units)) {
       unitsParams += `&${key}=${value}`;
     }
-  const res = await fetch(apiUrl + params + unitsParams);
+  const res = await fetch(apiForecastUrl + params + unitsParams);
   const data = await res.json();
   const weatherMap = data.daily.temperature_2m_min.map((temp: number, index: number) => {
     const time = new Date(data.daily.time[index]).getDay();

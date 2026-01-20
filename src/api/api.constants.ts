@@ -1,4 +1,5 @@
-export const apiUrl = 'https://api.open-meteo.com/v1/forecast';
+export const apiForecastUrl = 'https://api.open-meteo.com/v1/forecast';
+export const apiGeocodeUrl = 'https://geocoding-api.open-meteo.com/v1/search';
 
 export const daysMapper: { [key: number]: string } = {
   0: 'Sunday',

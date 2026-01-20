@@ -1,5 +1,5 @@
-import { apiUrl, daysMapper, monthsMapper } from './api.constants';
 import type { units } from '@/contexts/units/Units.provider';
+import { apiForecastUrl, daysMapper, monthsMapper } from './api.constants';
 
 type CurrentForrecastType = {
   time: string;
@@ -19,7 +19,7 @@ export const fetchCurerntForecast = async (units: units | undefined = undefined)
     for (const [key, value] of Object.entries(units)) {
       unitsParams += `&${key}=${value}`;
     }
-  const res = await fetch(apiUrl + params + unitsParams);
+  const res = await fetch(apiForecastUrl + params + unitsParams);
   const data = await res.json();
   const day = daysMapper[new Date(data.current.time).getDay()];
   const month = monthsMapper[new Date(data.current.time).getMonth()];

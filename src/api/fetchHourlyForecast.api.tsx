@@ -1,5 +1,5 @@
 import type { units } from '@/contexts/units/Units.provider';
-import { apiUrl, daysMapper, time24hto12hMapper } from './api.constants';
+import { apiForecastUrl, daysMapper, time24hto12hMapper } from './api.constants';
 
 export type Hourly = Record<
   (typeof daysMapper)[keyof typeof daysMapper],
@@ -13,7 +13,7 @@ export const fetchHourlyForecast = async (units: units | undefined = undefined):
     for (const [key, value] of Object.entries(units)) {
       unitsParams += `&${key}=${value}`;
     }
-  const res = await fetch(apiUrl + params + unitsParams);
+  const res = await fetch(apiForecastUrl + params + unitsParams);
   const data = await res.json();
 
   const hourly = data.hourly.temperature_2m.reduce((acc: Hourly, temp: number, index: number) => {

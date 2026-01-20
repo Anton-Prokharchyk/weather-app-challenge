@@ -8,6 +8,7 @@ export const DropDownItem = ({
   children,
   clickHandler = () => {},
   selected = false,
+  reference,
   ...otherProps
 }: {
   selected?: boolean;
@@ -17,11 +18,40 @@ export const DropDownItem = ({
 }) => {
   if (selected)
     return (
-      <DropDownItemContainerWithIcon {...otherProps} onClick={clickHandler}>
+      <DropDownItemContainerWithIcon
+        {...otherProps}
+        onClick={clickHandler}
+        onMouseDown={(e) => {
+          clickHandler(e);
+          document.activeElement.blur();
+        }}
+        tabIndex={0}
+      >
         {children}
         <SelectedIcon />
       </DropDownItemContainerWithIcon>
     );
 
-  return <DropDownItemContainer onClick={clickHandler}>{children}</DropDownItemContainer>;
+  return (
+    <DropDownItemContainer
+      tabIndex={0}
+      onClick={(e) => {
+        console.log('basdf');
+        clickHandler(e);
+      }}
+      onMouseDown={(e) => {
+        clickHandler(e);
+        e.currentTarget.focus();
+        // document.activeElement.blur();
+      }}
+      onKeyDown={(e) => {
+        if (e.key !== 'Enter') return;
+        clickHandler(e);
+        e.currentTarget.focus();
+        // document.activeElement.blur();
+      }}
+    >
+      {children}
+    </DropDownItemContainer>
+  );
 };
