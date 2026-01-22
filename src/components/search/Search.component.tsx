@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { useEffect, useRef, useState } from 'react';
+import { useState, type SyntheticEvent } from 'react';
 
 import { fetchSearchCountryName } from '@/api/fetchSearchCountryName.api';
 import { queryKeysFabric } from '@/tanstack/queryKeys.fabric';
@@ -10,7 +10,7 @@ import { SearchBox, SearchButton, SearchContainer, SearchInput, StyledSearchIcon
 
 export const Search = () => {
   const [searchInputText, setsearchInputText] = useState('');
-  const inputRef = useRef<HTMLInputElement>(null);
+  const [isDropDownOpen, setIsDropDownOpen] = useState(false);
 
   const {
     isPending,
@@ -21,40 +21,10 @@ export const Search = () => {
     queryFn: () => fetchSearchCountryName(searchInputText.split(',')[0]),
   });
 
-  const [isDropDownOpen, setIsDropDownOpen] = useState(false);
-
-  const handleChooseCountryFromDropDown = (e: React.MouseEvent) => {
+  const handleChooseCountryFromDropDown = (e: SyntheticEvent) => {
     setsearchInputText(e.currentTarget.textContent);
     setIsDropDownOpen(false);
-    e.currentTarget.focus();
-    console.log('a', e.currentTarget);
-    // inputRef.current?.focus();
   };
-
-  const handle = (isOpen?: boolean) => {
-    console.log('handle', isDropDownOpen, isOpen, isPending, data.length);
-    if (isOpen) {
-      if (isPending || data.length) {
-        setIsDropDownOpen(true);
-      } else {
-        setIsDropDownOpen(false);
-      }
-    } else if (isOpen === undefined && isDropDownOpen) {
-      if (isPending || data.length) {
-        setIsDropDownOpen(true);
-      } else {
-        setIsDropDownOpen(false);
-      }
-    } else {
-      setIsDropDownOpen(false);
-    }
-  };
-
-  useEffect(() => {
-    // if (!searchInputText) return;
-    // setIsDropDownOpen(isPending || !!data.length);
-    // handle();
-  }, [data, isPending, searchInputText]);
 
   if (error) return <div>error.message</div>;
 
@@ -75,12 +45,11 @@ export const Search = () => {
           onChange={(e) => {
             setsearchInputText(e.currentTarget.value);
           }}
-          ref={inputRef}
+          // ref={inputRef}
           onFocus={() => {
             setIsDropDownOpen(true);
           }}
           value={searchInputText}
-          // tabIndex={0}
           type='text'
           placeholder='Search for a place...'
         />
@@ -91,7 +60,6 @@ export const Search = () => {
             !!data.length &&
             data.map(({ name, country, id }) => (
               <DropDownItem
-                reference={inputRef}
                 clickHandler={handleChooseCountryFromDropDown}
                 key={id}
               >{`${name}, ${country}`}</DropDownItem>

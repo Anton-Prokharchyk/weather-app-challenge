@@ -1,4 +1,4 @@
-import type { HTMLAttributes, MouseEventHandler } from 'react';
+import type { HTMLAttributes, ReactEventHandler } from 'react';
 
 import SelectedIcon from '@/assets/images/icon-checkmark.svg?react';
 
@@ -8,25 +8,16 @@ export const DropDownItem = ({
   children,
   clickHandler = () => {},
   selected = false,
-  reference,
   ...otherProps
 }: {
   selected?: boolean;
   children: React.ReactNode;
-  clickHandler?: MouseEventHandler<HTMLDivElement>;
+  clickHandler?: ReactEventHandler<HTMLDivElement>;
   otherProps?: HTMLAttributes<HTMLDivElement>;
 }) => {
   if (selected)
     return (
-      <DropDownItemContainerWithIcon
-        {...otherProps}
-        onClick={clickHandler}
-        onMouseDown={(e) => {
-          clickHandler(e);
-          document.activeElement.blur();
-        }}
-        tabIndex={0}
-      >
+      <DropDownItemContainerWithIcon {...otherProps} onClick={clickHandler} tabIndex={0}>
         {children}
         <SelectedIcon />
       </DropDownItemContainerWithIcon>
@@ -36,19 +27,12 @@ export const DropDownItem = ({
     <DropDownItemContainer
       tabIndex={0}
       onClick={(e) => {
-        console.log('basdf');
         clickHandler(e);
-      }}
-      onMouseDown={(e) => {
-        clickHandler(e);
-        e.currentTarget.focus();
-        // document.activeElement.blur();
+        e.preventDefault();
       }}
       onKeyDown={(e) => {
         if (e.key !== 'Enter') return;
         clickHandler(e);
-        e.currentTarget.focus();
-        // document.activeElement.blur();
       }}
     >
       {children}
