@@ -4,5 +4,6 @@ export const queryKeysFabric = {
   currentForecast: (selectedUnits: units) => ['current-forecast', selectedUnits] as const,
   dailyForecast: (selectedUnits: units) => ['daily-forecast', selectedUnits] as const,
   hourlyForecast: (selectedUnits: units) => ['hourly-forecast', selectedUnits] as const,
-  searchCountryName: (searchString: string) => ['search-country-name', searchString] as const,
+  searchCountryName: () => ['search-country-name'] as const,
+  currentLocation: (currentLocation: string) => ['current-location', currentLocation] as const,
 };

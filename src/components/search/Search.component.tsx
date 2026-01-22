@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useState, type SyntheticEvent } from 'react';
 
 import { fetchSearchCountryName } from '@/api/fetchSearchCountryName.api';
@@ -11,6 +11,7 @@ import { SearchBox, SearchButton, SearchContainer, SearchInput, StyledSearchIcon
 export const Search = () => {
   const [searchInputText, setsearchInputText] = useState('');
   const [isDropDownOpen, setIsDropDownOpen] = useState(false);
+  const queryClient = useQueryClient();
 
   const {
     isPending,
@@ -20,6 +21,10 @@ export const Search = () => {
     queryKey: queryKeysFabric.searchCountryName(searchInputText),
     queryFn: () => fetchSearchCountryName(searchInputText.split(',')[0]),
   });
+
+  const setCurerntLocation = () => {
+    queryClient.setQueryData(queryKeysFabric.currentLocation, data[0]);
+  };
 
   const handleChooseCountryFromDropDown = (e: SyntheticEvent) => {
     setsearchInputText(e.currentTarget.textContent);

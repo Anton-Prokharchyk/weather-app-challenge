@@ -1,26 +1,26 @@
-import { useContext, useMemo, useState, type MouseEvent } from 'react';
 import { useQuery } from '@tanstack/react-query';
+import { useContext, useMemo, useState, type MouseEvent } from 'react';
 
 import { fetchHourlyForecast } from '@/api/fetchHourlyForecast.api';
-import { Menu } from '../shared/menu/Menu.component';
 import DropDownIcon from '@/assets/images/icon-dropdown.svg?react';
-import { DropDown } from '../shared/drop-down/DropDown.component';
-import { DropDownItem } from '../shared/drop-down-item/DropDownItem.component';
-import { queryKeysFabric } from '@/tanstack/queryKeys.fabric';
-import { days, loaderCurrentDay, loaderHourly } from './horuly-forecast.constants';
 import { UnitsContext } from '@/contexts/units/units.context';
+import { queryKeysFabric } from '@/tanstack/queryKeys.fabric';
 import { addUnitsSymbol } from '@/utils';
 import { HourlyForecastCard } from '../hourly-forecast-card/HourlyForecastCard.component';
 import { getWeatherIconByCode } from '../icons';
+import { DropDownItem } from '../shared/drop-down-item/DropDownItem.component';
+import { DropDown } from '../shared/drop-down/DropDown.component';
+import { Menu } from '../shared/menu/Menu.component';
+import { days, loaderCurrentDay, loaderHourly } from './horuly-forecast.constants';
 
 import {
   HourlyForecastContainer,
-  HourlyForecastList,
   HourlyForecastHead,
+  HourlyForecastList,
   HourlyHeading,
   HourlyScrollBarWrapper,
-  HourlyTime,
   HourlyTemp,
+  HourlyTime,
 } from './hourly-forecast.styles';
 
 export const HourlyForecast = () => {
