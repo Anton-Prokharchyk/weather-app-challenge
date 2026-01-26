@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useContext, useMemo, useState, type MouseEvent } from 'react';
 
 import { fetchHourlyForecast } from '@/api/fetchHourlyForecast.api';
+import type { LocationType } from '@/api/fetchSearchCountryName.api';
 import DropDownIcon from '@/assets/images/icon-dropdown.svg?react';
 import { UnitsContext } from '@/contexts/units/units.context';
 import { queryKeysFabric } from '@/tanstack/queryKeys.fabric';
@@ -25,9 +26,13 @@ import {
 
 export const HourlyForecast = () => {
   const { selectedUnits } = useContext(UnitsContext);
+  const { data: currentLocation } = useQuery<LocationType | null | void>({
+    queryKey: queryKeysFabric.currentLocation(),
+    queryFn: () => {},
+  });
   const { isPending: isHourlyPending, data: hourly } = useQuery({
     queryKey: queryKeysFabric.hourlyForecast(selectedUnits),
-    queryFn: () => fetchHourlyForecast(selectedUnits),
+    queryFn: () => fetchHourlyForecast(currentLocation?.longitude, currentLocation?.latitude, selectedUnits),
   });
 
   const defaultDay = useMemo(() => {

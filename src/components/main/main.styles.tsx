@@ -24,3 +24,10 @@ export const MainForecastContainer = styled.section`
   gap: 32px;
   height: 77%;
 `;
+
+export const NoResults = styled.p`
+  font-family: 'DS', sans-serif;
+  font-weight: 400;
+  font-size: 24px;
+  text-align: center;
+`;

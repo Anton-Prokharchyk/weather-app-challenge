@@ -12,14 +12,20 @@ type CurrentForrecastType = {
 };
 
 const params =
-  '?current=temperature_2m,relative_humidity_2m,precipitation,weather_code,wind_speed_10m,apparent_temperature&latitude=53.9&longitude=27.5667';
-export const fetchCurerntForecast = async (units: units | undefined = undefined): Promise<CurrentForrecastType> => {
+  '?current=temperature_2m,relative_humidity_2m,precipitation,weather_code,wind_speed_10m,apparent_temperature';
+export const fetchCurerntForecast = async (
+  longitude: number | undefined,
+  latitude: number | undefined,
+  units: units | undefined = undefined,
+): Promise<CurrentForrecastType | null> => {
+  if (!longitude || !latitude) return null;
+
   let unitsParams = ``;
   if (units)
     for (const [key, value] of Object.entries(units)) {
       unitsParams += `&${key}=${value}`;
     }
-  const res = await fetch(apiForecastUrl + params + unitsParams);
+  const res = await fetch(apiForecastUrl + params + unitsParams + `&longitude=${longitude}&latitude=${latitude}`);
   const data = await res.json();
   const day = daysMapper[new Date(data.current.time).getDay()];
   const month = monthsMapper[new Date(data.current.time).getMonth()];

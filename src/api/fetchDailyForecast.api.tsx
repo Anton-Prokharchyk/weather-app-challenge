@@ -9,14 +9,20 @@ type Daily = {
   weather: weatherCodesType;
 }[];
 
-const params = '?daily=weather_code,temperature_2m_max,temperature_2m_min&latitude=53.9&longitude=27.5667';
-export const fetchDailyForecast = async (units: units | undefined = undefined): Promise<Daily> => {
+const params = 'daily=weather_code,temperature_2m_max,temperature_2m_min&latitude=53.9&longitude=27.5667';
+export const fetchDailyForecast = async (
+  longitude: number | undefined,
+  latitude: number | undefined,
+  units: units | undefined = undefined,
+): Promise<Daily | null> => {
+  if (!longitude || !latitude) return null;
+
   let unitsParams = ``;
   if (units)
     for (const [key, value] of Object.entries(units)) {
       unitsParams += `&${key}=${value}`;
     }
-  const res = await fetch(apiForecastUrl + params + unitsParams);
+  const res = await fetch(apiForecastUrl + '?' + params + unitsParams + `&${longitude}&${latitude}`);
   const data = await res.json();
   const weatherMap = data.daily.temperature_2m_min.map((temp: number, index: number) => {
     const time = new Date(data.daily.time[index]).getDay();

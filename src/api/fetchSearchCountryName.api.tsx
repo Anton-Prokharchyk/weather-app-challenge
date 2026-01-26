@@ -1,6 +1,6 @@
 import { apiGeocodeUrl } from './api.constants';
 
-type CurrentForrecastType = {
+export type LocationType = {
   country: string;
   country_code: string;
   country_id: number;
@@ -15,8 +15,8 @@ type CurrentForrecastType = {
 };
 
 const params = '&count=10&language=en&format=json';
-export const fetchSearchCountryName = async (searchString: string): Promise<CurrentForrecastType[]> => {
+export const fetchSearchCountryName = async (searchString: string): Promise<LocationType[]> => {
   const res = await fetch(apiGeocodeUrl + `?name=${searchString}` + params);
-  const data = (await res.json()) as { generationTime: string; results: CurrentForrecastType[] };
+  const data = (await res.json()) as { generationTime: string; results: LocationType[] };
   return data.results || [];
 };

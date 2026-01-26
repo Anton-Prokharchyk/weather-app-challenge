@@ -1,13 +1,14 @@
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useContext } from 'react';
-import { useQuery } from '@tanstack/react-query';
 
-import { ForecastCard } from '../shared/forecast-card/ForecastCard.component';
 import { fetchDailyForecast } from '@/api/fetchDailyForecast.api';
-import { queryKeysFabric } from '@/tanstack/queryKeys.fabric';
+import type { LocationType } from '@/api/fetchSearchCountryName.api';
 import { UnitsContext } from '@/contexts/units/units.context';
+import { queryKeysFabric } from '@/tanstack/queryKeys.fabric';
 import { addUnitsSymbol } from '@/utils';
-import { loaderDailyCards } from './daily-forecast.constants';
 import { getWeatherIconByCode } from '../icons/';
+import { ForecastCard } from '../shared/forecast-card/ForecastCard.component';
+import { loaderDailyCards } from './daily-forecast.constants';
 
 import {
   DailyForecastContainer,
@@ -18,20 +19,32 @@ import {
 
 export const DailyForecast = () => {
   const { selectedUnits } = useContext(UnitsContext);
-  const { isPending, error, data } = useQuery({
-    queryKey: queryKeysFabric.dailyForecast(selectedUnits),
-    queryFn: () => fetchDailyForecast(selectedUnits),
+
+  const queryClient = useQueryClient();
+  const { data: currentLocation = null } = useQuery<LocationType | null | void>({
+    queryKey: queryKeysFabric.currentLocation(),
+    queryFn: () => queryClient.getQueryData(queryKeysFabric.currentLocation()) ?? null,
   });
 
-  if (error) return <div>error.message</div>;
+  const {
+    isPending: isDailyPending,
+    error: dailyError,
+    data: dailyForecast,
+  } = useQuery({
+    queryKey: queryKeysFabric.dailyForecast(selectedUnits),
+    queryFn: () => fetchDailyForecast(currentLocation?.longitude, currentLocation?.latitude, selectedUnits),
+  });
+
+  if (dailyError) return <div>error.message</div>;
 
   return (
     <DailyForecastWrapper>
       <DailyForecastTitle>Daily forecast</DailyForecastTitle>
       <DailyForecastContainer>
-        {isPending
+        {isDailyPending
           ? loaderDailyCards
-          : data.map(({ day, temperatureMax, temperatureMin, weather }) => {
+          : dailyForecast &&
+            dailyForecast.map(({ day, temperatureMax, temperatureMin, weather }) => {
               return (
                 <ForecastCard position='center' key={day}>
                   <p>{day}</p>

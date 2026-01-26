@@ -1,5 +1,5 @@
-import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { useState, type SyntheticEvent } from 'react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useEffect, useState, type SyntheticEvent } from 'react';
 
 import { fetchSearchCountryName } from '@/api/fetchSearchCountryName.api';
 import { queryKeysFabric } from '@/tanstack/queryKeys.fabric';
@@ -17,19 +17,24 @@ export const Search = () => {
     isPending,
     error,
     data = [],
-  } = useQuery({
-    queryKey: queryKeysFabric.searchCountryName(searchInputText),
-    queryFn: () => fetchSearchCountryName(searchInputText.split(',')[0]),
+    mutate,
+  } = useMutation({
+    mutationFn: () => fetchSearchCountryName(searchInputText.split(',')[0]),
   });
 
   const setCurerntLocation = () => {
-    queryClient.setQueryData(queryKeysFabric.currentLocation, data[0]);
+    queryClient.setQueryData(queryKeysFabric.currentLocation(), data[0]);
   };
 
   const handleChooseCountryFromDropDown = (e: SyntheticEvent) => {
     setsearchInputText(e.currentTarget.textContent);
     setIsDropDownOpen(false);
+    setCurerntLocation();
   };
+
+  useEffect(() => {
+    mutate();
+  }, [searchInputText, mutate]);
 
   if (error) return <div>error.message</div>;
 
@@ -45,7 +50,10 @@ export const Search = () => {
         <StyledSearchIcon />
         <SearchInput
           onKeyDown={(e) => {
-            if (e.key === 'Enter') console.log(e.currentTarget.value);
+            if (e.key === 'Enter') {
+              setIsDropDownOpen(false);
+              setCurerntLocation();
+            }
           }}
           onChange={(e) => {
             setsearchInputText(e.currentTarget.value);

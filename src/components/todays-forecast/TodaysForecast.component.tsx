@@ -1,24 +1,28 @@
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useContext } from 'react';
 
+import type { LocationType } from '@/api/fetchSearchCountryName.api';
 import StyledWeatherIcon from '@/assets/images/icon-sunny.webp';
-import { addUnitsSymbol } from '@/utils';
-import { ForecastCard } from '../shared/forecast-card/ForecastCard.component';
-import { useCurrentForecast } from '@/hooks/useCurrentForecast.hook';
 import { UnitsContext } from '@/contexts/units/units.context';
 import type { units } from '@/contexts/units/Units.provider';
+import { useCurrentForecast } from '@/hooks/useCurrentForecast.hook';
+import { queryKeysFabric } from '@/tanstack/queryKeys.fabric';
+import { addUnitsSymbol } from '@/utils';
+import { ForecastCard } from '../shared/forecast-card/ForecastCard.component';
+import { TodaysLoader } from './todays-loader/TodaysLoader.component';
 
 import {
-  TodaysForecastContainer,
-  StyledTodaysForecast,
-  Date,
-  Location,
-  TempWrapper,
-  Temp,
   AddInfoContainer,
   AddInfoTitle,
   AddInfoValue,
+  Date,
+  ForecastImg,
+  Location,
+  StyledTodaysForecast,
+  Temp,
+  TempWrapper,
+  TodaysForecastContainer,
 } from './todays-forecast.styles';
-import { TodaysLoader } from './todays-loader/TodaysLoader.component';
 
 const unitsSymbolsMapper = {
   ['feels like']: 'temperature_unit',
@@ -32,7 +36,17 @@ export type todaysAddInfoType = keyof typeof unitsSymbolsMapper;
 export const TodaysForecast = () => {
   const { selectedUnits } = useContext(UnitsContext);
 
-  const { isPending, data: current } = useCurrentForecast(selectedUnits);
+  const queryClient = useQueryClient();
+  const { data: currentLocation = null } = useQuery<LocationType | null | void>({
+    queryKey: queryKeysFabric.currentLocation(),
+    queryFn: () => queryClient.getQueryData(queryKeysFabric.currentLocation()) ?? null,
+  });
+
+  const { isPending, data: current } = useCurrentForecast(
+    currentLocation?.longitude,
+    currentLocation?.latitude,
+    selectedUnits,
+  );
 
   return (
     <TodaysForecastContainer>
@@ -42,11 +56,11 @@ export const TodaysForecast = () => {
         ) : (
           <>
             <div>
-              <Location>Berlin, Germany</Location>
+              <Location>{`${currentLocation?.name}, ${currentLocation?.country}`}</Location>
               <Date>{current.time}</Date>
             </div>
             <TempWrapper>
-              <img width='100' height='100' src={StyledWeatherIcon} alt='Weather icon' />
+              <ForecastImg width='100px' height='100px' src={StyledWeatherIcon} alt='Weather icon' />
               <Temp>{addUnitsSymbol(current.temperature, selectedUnits.temperature_unit)}</Temp>
             </TempWrapper>
           </>

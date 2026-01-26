@@ -7,13 +7,19 @@ export type Hourly = Record<
 >;
 
 const params = '?hourly=temperature_2m,weather_code&latitude=53.9&longitude=27.5667';
-export const fetchHourlyForecast = async (units: units | undefined = undefined): Promise<Hourly> => {
+export const fetchHourlyForecast = async (
+  longitude: number | undefined,
+  latitude: number | undefined,
+  units: units | undefined = undefined,
+): Promise<Hourly | null> => {
+  if (!longitude || !latitude) return null;
+
   let unitsParams = ``;
   if (units)
     for (const [key, value] of Object.entries(units)) {
       unitsParams += `&${key}=${value}`;
     }
-  const res = await fetch(apiForecastUrl + params + unitsParams);
+  const res = await fetch(apiForecastUrl + params + unitsParams + `&${longitude}&${latitude}`);
   const data = await res.json();
 
   const hourly = data.hourly.temperature_2m.reduce((acc: Hourly, temp: number, index: number) => {
