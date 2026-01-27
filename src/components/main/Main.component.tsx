@@ -16,8 +16,6 @@ export const Main = () => {
     queryFn: () => queryClient.getQueryData(queryKeysFabric.currentLocation()) ?? null,
   });
 
-  console.log(' main', currentLocation, isCurrentLocationPending);
-
   return (
     <MainContainer>
       <MainTitle>how&apos;s the sky looking today?</MainTitle>

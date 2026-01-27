@@ -19,7 +19,7 @@ export const Search = () => {
     data = [],
     mutate,
   } = useMutation({
-    mutationFn: () => fetchSearchCountryName(searchInputText.split(',')[0]),
+    mutationFn: (query: string) => fetchSearchCountryName(query),
   });
 
   const setCurerntLocation = () => {
@@ -33,7 +33,8 @@ export const Search = () => {
   };
 
   useEffect(() => {
-    mutate();
+    const timer = setTimeout(() => mutate(searchInputText.split(',')[0]), 300);
+    return () => clearTimeout(timer);
   }, [searchInputText, mutate]);
 
   if (error) return <div>error.message</div>;
