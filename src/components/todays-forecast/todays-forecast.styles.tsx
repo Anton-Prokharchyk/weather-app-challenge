@@ -9,6 +9,10 @@ export const TodaysForecastContainer = styled.section`
   gap: 32px;
 `;
 
+export const LocationWrapper = styled.div`
+  text-align: center;
+`;
+
 export const StyledTodaysForecast = styled.div<{ isLoading: boolean }>`
   ${({ isLoading }) =>
     isLoading ? 'background-color: var(--neutral-800)' : `background: url(${bgImg}) no-repeat center/cover`};
@@ -21,6 +25,11 @@ export const StyledTodaysForecast = styled.div<{ isLoading: boolean }>`
   display: flex;
   justify-content: ${({ isLoading }) => (isLoading ? 'center' : 'space-between')};
   align-items: center;
+
+  ${({ theme }) =>
+    theme.media.mobile(`
+      flex-direction: column;
+  `)}
 `;
 
 export const Location = styled.p`
@@ -50,6 +59,12 @@ export const AddInfoContainer = styled.div`
   justify-content: space-between;
   align-items: center;
   gap: 2%;
+
+  ${({ theme }) =>
+    theme.media.mobile(`
+      flex-wrap: wrap;
+      gap: 16px;
+  `)}
 `;
 
 export const AddInfoTitle = styled.p`

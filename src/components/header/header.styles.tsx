@@ -5,6 +5,11 @@ export const StyledHeader = styled.header`
   justify-content: space-between;
   align-items: center;
   height: 8%;
+
+  ${({ theme }) =>
+    theme.media.mobile(`
+      height: auto;
+  `)}
 `;
 
 export const StyledDropDownMenu = styled.div`

@@ -33,6 +33,11 @@ export const HourlyScrollBarWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
+
+  ${({ theme }) =>
+    theme.media.mobile(`
+      height: 600px;
+  `)}
 `;
 
 export const HourlyForecastList = styled.div`

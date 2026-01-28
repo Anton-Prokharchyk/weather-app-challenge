@@ -5,6 +5,11 @@ export const MainContainer = styled.main`
   flex-direction: column;
   gap: 32px;
   height: 92%;
+
+  ${({ theme }) =>
+    theme.media.mobile(`
+    height: auto;
+`)}
 `;
 
 export const MainTitle = styled.h1`
@@ -15,6 +20,12 @@ export const MainTitle = styled.h1`
   text-transform: capitalize;
   height: 8%;
   width: 100%;
+
+  ${({ theme }) =>
+    theme.media.mobile(`
+      font-size: 56px;
+      height: auto;
+  `)}
 `;
 
 export const MainForecastContainer = styled.section`
@@ -23,6 +34,13 @@ export const MainForecastContainer = styled.section`
   grid-template-rows: 2fr 1fr;
   gap: 32px;
   height: 77%;
+
+  ${({ theme }) =>
+    theme.media.mobile(`
+      grid-template-columns: auto;
+      grid-template-rows: auto;
+      height: auto;
+  `)}
 `;
 
 export const NoResults = styled.p`

@@ -46,7 +46,7 @@ export const DailyForecast = () => {
           : dailyForecast &&
             dailyForecast.map(({ day, temperatureMax, temperatureMin, weather }) => {
               return (
-                <ForecastCard position='center' key={day}>
+                <ForecastCard position='center' key={day} flex='0 1 30%'>
                   <p>{day}</p>
                   {getWeatherIconByCode(weather)}
                   <TempContainer>

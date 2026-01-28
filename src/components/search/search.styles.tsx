@@ -8,6 +8,13 @@ export const SearchContainer = styled.section`
   justify-content: center;
   align-items: center;
   height: 6%;
+
+  ${({ theme }) =>
+    theme.media.mobile(`
+      align-items: stretch;
+      flex-direction: column;
+      height: 120px;
+  `)}
 `;
 export const SearchInput = styled.input`
   width: 100%;

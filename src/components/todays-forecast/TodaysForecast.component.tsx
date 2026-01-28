@@ -18,6 +18,7 @@ import {
   Date,
   ForecastImg,
   Location,
+  LocationWrapper,
   StyledTodaysForecast,
   Temp,
   TempWrapper,
@@ -55,10 +56,10 @@ export const TodaysForecast = () => {
           <TodaysLoader />
         ) : (
           <>
-            <div>
+            <LocationWrapper>
               <Location>{`${currentLocation?.name}, ${currentLocation?.country}`}</Location>
               <Date>{current.time}</Date>
-            </div>
+            </LocationWrapper>
             <TempWrapper>
               <ForecastImg width='100px' height='100px' src={StyledWeatherIcon} alt='Weather icon' />
               <Temp>{addUnitsSymbol(current.temperature, selectedUnits.temperature_unit)}</Temp>
@@ -68,7 +69,7 @@ export const TodaysForecast = () => {
       </StyledTodaysForecast>
       <AddInfoContainer>
         {(Object.keys(unitsSymbolsMapper) as todaysAddInfoType[]).map((item) => (
-          <ForecastCard padding='16px' key={item}>
+          <ForecastCard padding='16px' key={item} flex='1 1 45%'>
             <AddInfoTitle>{item}</AddInfoTitle>
             <AddInfoValue>
               {current ? addUnitsSymbol(current[item], selectedUnits[unitsSymbolsMapper[item]]) : '-'}
