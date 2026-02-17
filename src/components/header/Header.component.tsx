@@ -14,12 +14,12 @@ const unitsKeysMapper = {
   temperature_unit: 'Temperature',
   wind_speed_unit: 'Wind Speed',
   precipitation_unit: 'Precipitation',
-};
+} as const;
 const unitsFilter = {
   temperature_unit: ['celsius', 'fahrenheit'],
   wind_speed_unit: ['kmh', 'mph'],
   precipitation_unit: ['inch', 'mm'],
-};
+} as const;
 
 const unitsOptionMapper = {
   celsius: 'Celsius(°C)',
@@ -50,10 +50,13 @@ export const Header = () => {
           <p>Units</p>
           <DropDownIcon />
           <DropDown width='200px' isOpen={isOpen}>
-            <DropDownItem tabIndex={0} clickHandler={handleSetImnperialUnits}>
-              Switch to Imperial
-            </DropDownItem>
-            {Object.entries(unitsFilter).map(([key, values]) => {
+            <DropDownItem clickHandler={handleSetImnperialUnits}>Switch to Imperial</DropDownItem>
+            {(
+              Object.entries(unitsFilter) as [
+                keyof typeof unitsFilter,
+                (typeof unitsFilter)[keyof typeof unitsFilter],
+              ][]
+            ).map(([key, values]) => {
               return (
                 <Fragment key={key}>
                   <OptionType>{unitsKeysMapper[key]}</OptionType>
