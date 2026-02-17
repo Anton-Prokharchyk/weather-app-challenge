@@ -1,12 +1,12 @@
-import { useState, useContext, Fragment } from 'react';
+import { Fragment, useContext, useState } from 'react';
 
-import Logo from '@/assets/images/logo.svg?react';
-import SettingsIcon from '@/assets/images/icon-units.svg?react';
 import DropDownIcon from '@/assets/images/icon-dropdown.svg?react';
-import { Menu } from '../shared/menu/Menu.component';
-import { DropDown } from '../shared/drop-down/DropDown.component';
-import { DropDownItem } from '../shared/drop-down-item/DropDownItem.component';
+import SettingsIcon from '@/assets/images/icon-units.svg?react';
+import Logo from '@/assets/images/logo.svg?react';
 import { UnitsContext } from '@/contexts/units/units.context';
+import { DropDownItem } from '../shared/drop-down-item/DropDownItem.component';
+import { DropDown } from '../shared/drop-down/DropDown.component';
+import { Menu } from '../shared/menu/Menu.component';
 
 import { Divider, OptionType, StyledDropDownMenu, StyledHeader } from './header.styles';
 
@@ -36,7 +36,9 @@ export const Header = () => {
   const handleSelectUnit = (unitTypeToChange: string, valueToChange: string) => {
     setSelectedUnits({ ...selectedUnits, [unitTypeToChange]: valueToChange });
   };
-  const toggleDropDown = () => setIsOpen(!isOpen);
+  const toggleDropDown = () => {
+    setIsOpen(!isOpen);
+  };
   return (
     <StyledHeader>
       <div className='header__logo'>

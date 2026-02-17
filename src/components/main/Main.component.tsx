@@ -10,10 +10,10 @@ import { HourlyForecast } from '../hourly-forecast/HourlyForecast.component';
 import { MainContainer, MainForecastContainer, MainTitle, NoResults } from './main.styles';
 
 export const Main = () => {
-  const queryClient = useQueryClient();
+  const qc = useQueryClient();
   const { data: currentLocation = null, isPending: isCurrentLocationPending } = useQuery<LocationType | null | void>({
     queryKey: queryKeysFabric.currentLocation(),
-    queryFn: () => queryClient.getQueryData(queryKeysFabric.currentLocation()) ?? null,
+    queryFn: () => qc.getQueryData(queryKeysFabric.currentLocation()) ?? null,
   });
 
   return (

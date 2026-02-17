@@ -20,10 +20,10 @@ import {
 export const DailyForecast = () => {
   const { selectedUnits } = useContext(UnitsContext);
 
-  const queryClient = useQueryClient();
+  const qc = useQueryClient();
   const { data: currentLocation = null } = useQuery<LocationType | null | void>({
     queryKey: queryKeysFabric.currentLocation(),
-    queryFn: () => queryClient.getQueryData(queryKeysFabric.currentLocation()) ?? null,
+    queryFn: () => qc.getQueryData(queryKeysFabric.currentLocation()) ?? null,
   });
 
   const {

@@ -11,7 +11,7 @@ import { SearchBox, SearchButton, SearchContainer, SearchInput, StyledSearchIcon
 export const Search = () => {
   const [searchInputText, setsearchInputText] = useState('');
   const [isDropDownOpen, setIsDropDownOpen] = useState(false);
-  const queryClient = useQueryClient();
+  const qc = useQueryClient();
 
   const {
     isPending,
@@ -23,7 +23,7 @@ export const Search = () => {
   });
 
   const setCurerntLocation = () => {
-    queryClient.setQueryData(queryKeysFabric.currentLocation(), data[0]);
+    qc.setQueryData(queryKeysFabric.currentLocation(), data[0]);
   };
 
   const handleChooseCountryFromDropDown = (e: SyntheticEvent) => {

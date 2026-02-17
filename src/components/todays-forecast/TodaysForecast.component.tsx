@@ -37,10 +37,10 @@ export type todaysAddInfoType = keyof typeof unitsSymbolsMapper;
 export const TodaysForecast = () => {
   const { selectedUnits } = useContext(UnitsContext);
 
-  const queryClient = useQueryClient();
+  const qc = useQueryClient();
   const { data: currentLocation = null } = useQuery<LocationType | null | void>({
     queryKey: queryKeysFabric.currentLocation(),
-    queryFn: () => queryClient.getQueryData(queryKeysFabric.currentLocation()) ?? null,
+    queryFn: () => qc.getQueryData(queryKeysFabric.currentLocation()) ?? null,
   });
 
   const { isPending, data: current } = useCurrentForecast(
